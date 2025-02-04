@@ -44,8 +44,7 @@ export default function ChatPeopleList({ loggedInUser }) {
     channel.on("presence", { event: "sync" }, () => {
       const newState = channel.presenceState();
       const newStateObj = JSON.parse(JSON.stringify(newState));
-      setPresence(newState);
-      console.log(newStateObj);
+      setPresence(newStateObj);
     });
 
     channel.subscribe(async (status) => {
