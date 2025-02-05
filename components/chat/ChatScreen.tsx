@@ -10,7 +10,7 @@ import {
 } from "utils/recoil/atoms";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUserById } from "actions/chatActions";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Spinner } from "@material-tailwind/react";
 import { createBrowserSupabaseClient } from "utils/supabase/client";
 
@@ -70,6 +70,8 @@ export default function ChatScreen() {
   const [message, setMessage] = useState("");
   const supabase = createBrowserSupabaseClient();
   const presence = useRecoilValue(presenceState);
+  const chatEndRef = useRef(null);
+  const [isComposing, setIsComposing] = useState(false);
 
   useEffect(() => {
     const channel = supabase
@@ -92,22 +94,21 @@ export default function ChatScreen() {
     return () => {
       channel.unsubscribe();
     };
-  });
+  }, []);
 
   const selectedUserQuery = useQuery({
     queryKey: ["user", selectedUserId],
     queryFn: () => getUserById(selectedUserId),
   });
 
-  const sendMessageMutation = useMutation({
-    mutationFn: async () => {
-      sendMesssage({
-        message,
+  const sendMessageMutation = useMutation<void, unknown, string>({
+    mutationFn: async (msg) => {
+      await sendMesssage({
+        message: msg,
         chatUserId: selectedUserId,
       });
     },
     onSuccess: () => {
-      setMessage("");
       getAllMessagesQuery.refetch();
     },
   });
@@ -116,6 +117,20 @@ export default function ChatScreen() {
     queryKey: ["messages", selectedUserId],
     queryFn: () => getAllMessages({ chatUserId: selectedUserId }),
   });
+
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [getAllMessagesQuery.data]);
+
+  const handleSendMessage = () => {
+    const trimmedMessage = message.trim();
+    if (trimmedMessage) {
+      sendMessageMutation.mutate(trimmedMessage);
+      setMessage(""); // 메시지 전송 성공 후에만 입력 초기화
+    }
+  };
 
   return selectedUserQuery.data !== null ? (
     <div className="h-screen  w-full flex flex-col">
@@ -137,6 +152,7 @@ export default function ChatScreen() {
             isFromMe={message.receiver === selectedUserId}
           />
         ))}
+        <div ref={chatEndRef} />
       </div>
 
       {/* 체팅창 영역 */}
@@ -144,12 +160,21 @@ export default function ChatScreen() {
         <input
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => {
+            // 한글이나 일본어 입력 중일 때, isComposing이 true로 설정됨
+            if (e.key === "Enter" && !isComposing) {
+              e.preventDefault(); // 기본 Enter 동작 방지
+              handleSendMessage(); // 엔터로 메시지 전송
+            }
+          }}
+          onCompositionStart={() => setIsComposing(true)}
+          onCompositionEnd={() => setIsComposing(false)}
           className="p-4 w-full border-2 border-light-blue-600"
           placeholder="메세지를 입력하세요."
         />
 
         <button
-          onClick={() => sendMessageMutation.mutate()}
+          onClick={handleSendMessage}
           className="min-w-20 p-3 bg-light-blue-700 text-white"
           color="light-blue"
         >
