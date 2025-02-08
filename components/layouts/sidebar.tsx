@@ -1,6 +1,14 @@
 "use client";
 
-import { Home, Logout, People, Search, Send } from "@mui/icons-material";
+import {
+  Home,
+  Logout,
+  People,
+  Search,
+  Send,
+  Add,
+  Settings,
+} from "@mui/icons-material";
 import Link from "next/link";
 import { createBrowserSupabaseClient } from "utils/supabase/client";
 
@@ -11,6 +19,9 @@ export default function Sidebar() {
       <div className="flex flex-col gap-4">
         <Link href="/">
           <Home className="text-2xl mb-10" />
+        </Link>
+        <Link href="/newpost">
+          <Add className="text-2xl" />
         </Link>
         <Link href="/people">
           <People className="text-2xl" />
@@ -23,6 +34,9 @@ export default function Sidebar() {
         </Link>
       </div>
       <div>
+        <Link href="/settings">
+          <Settings className="text-2xl mb-5" />
+        </Link>
         <button
           onClick={async () => {
             supabase.auth.signOut();
