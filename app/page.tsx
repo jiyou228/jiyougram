@@ -2,7 +2,7 @@ import LogoutButton from "components/auth/logout-button";
 import { createServerSupabaseClient } from "utils/supabase/server";
 
 export const metadata = {
-  title: "Inflearngram",
+  title: "jiyougram",
   description: "Instagram clone project",
 };
 

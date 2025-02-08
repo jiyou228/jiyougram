@@ -6,8 +6,9 @@ import {
   People,
   Search,
   Send,
-  Add,
+  AddBoxOutlined,
   Settings,
+  FavoriteBorder,
 } from "@mui/icons-material";
 import Link from "next/link";
 import { createBrowserSupabaseClient } from "utils/supabase/client";
@@ -16,18 +17,18 @@ export default function Sidebar() {
   const supabase = createBrowserSupabaseClient();
   return (
     <aside className="h-screen p-6 border-r border-gray-300 flex flex-col justify-between w-fit">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
         <Link href="/">
           <Home className="text-2xl mb-10" />
         </Link>
         <Link href="/newpost">
-          <Add className="text-2xl" />
+          <AddBoxOutlined className="text-2xl" />
         </Link>
         <Link href="/people">
           <People className="text-2xl" />
         </Link>
         <Link href="/discover">
-          <Search className="text-2xl" />
+          <FavoriteBorder className="text-2xl" />
         </Link>
         <Link href="/chat">
           <Send className="text-2xl" />

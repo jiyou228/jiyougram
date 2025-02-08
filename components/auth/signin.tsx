@@ -62,7 +62,7 @@ export default function SignIn({ setView }) {
   return (
     <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
       <div className="pt-10 pb-6 px-10 w-full flex flex-col items-center justify-center max-w-lg border border-gray-400 bg-white gap-2">
-        <img src={"/images/inflearngram.png"} className="w-60 mb-6" />
+        <img src={"/images/jiyougram.png"} className="w-60 h-16 mb-6" />
 
         <Input
           value={formik.values.email}
