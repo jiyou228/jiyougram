@@ -24,7 +24,7 @@ export type Database = {
           is_deleted?: boolean
           message: string
           receiver: string
-          sender: string
+          sender?: string
         }
         Update: {
           created_at?: string
@@ -63,6 +63,36 @@ export type Database = {
           release_date?: string
           title?: string
           vote_average?: number
+        }
+        Relationships: []
+      }
+      textarea: {
+        Row: {
+          caption: string
+          comments_count: number
+          created_at: string
+          id: number
+          image_url: string
+          like_count: number
+          user_id: string
+        }
+        Insert: {
+          caption: string
+          comments_count: number
+          created_at?: string
+          id?: number
+          image_url: string
+          like_count: number
+          user_id?: string
+        }
+        Update: {
+          caption?: string
+          comments_count?: number
+          created_at?: string
+          id?: number
+          image_url?: string
+          like_count?: number
+          user_id?: string
         }
         Relationships: []
       }
