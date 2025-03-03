@@ -1,5 +1,13 @@
 ## Instagram clone coding!
 
+# 피드 업로드 (사진, 본문)
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/d4b5a40c-2525-4be1-a858-4830f0508777" />
+
+# 채팅 기능 구현
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/16273361-b372-442c-80c0-eca00abe01ea" />
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
